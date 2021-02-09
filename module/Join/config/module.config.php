@@ -25,7 +25,7 @@ return [
                 ],
             ],
 
-            'categoria' => [
+            'join-categoria' => [
                 'type' => Literal::class,
                 'options' => [
                     'route'    => '/categorias',
@@ -34,7 +34,32 @@ return [
                         'action'=> 'index',
                     ],
                 ],
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '[/:action][/:id]',
+                            'constraints' => array(
+                                'action' => '[a-z][a-zA-Z_]*',
+                                'id' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
 
+            ],
+            'join-produto' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/produtos',
+                    'defaults' => [
+                        'controller' => Controller\ProdutosController::class,
+                        'action'=> 'index',
+                    ],
+                ],
                 'may_terminate' => true,
                 'child_routes' => array(
                     'default' => array(
@@ -58,7 +83,8 @@ return [
 
     'controllers' => [
         'factories' => [
-            Controller\CategoriasController::class => InvokableFactory::class
+            Controller\CategoriasController::class => InvokableFactory::class,
+            Controller\ProdutosController::class => InvokableFactory::class
         ]
     ],
 
