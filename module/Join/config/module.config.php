@@ -9,7 +9,16 @@ use Laminas\Router\Http\Literal;
 return [
     'router' => [
         'routes' => [
-
+            'home' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/',
+                    'defaults' => [
+                        'controller' => Controller\HomeController::class,
+                        'action'     => 'home',
+                    ],
+                ],
+            ],
             'barcode' => [
                 'type' => Segment::class,
                 'options' => [
@@ -31,7 +40,7 @@ return [
                     'route'    => '/categorias',
                     'defaults' => [
                         'controller' => Controller\CategoriasController::class,
-                        'action'=> 'index',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
@@ -44,8 +53,7 @@ return [
                                 'action' => '[a-z][a-zA-Z_]*',
                                 'id' => '[0-9]+',
                             ),
-                            'defaults' => array(
-                            ),
+                            'defaults' => array(),
                         ),
                     ),
                 ),
@@ -57,7 +65,7 @@ return [
                     'route'    => '/produtos',
                     'defaults' => [
                         'controller' => Controller\ProdutosController::class,
-                        'action'=> 'index',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
@@ -70,8 +78,7 @@ return [
                                 'action' => '[a-z][a-zA-Z_]*',
                                 'id' => '[0-9]+',
                             ),
-                            'defaults' => array(
-                            ),
+                            'defaults' => array(),
                         ),
                     ),
                 ),
@@ -96,10 +103,11 @@ return [
         'factories' => [
             Controller\CategoriasController::class => Factory\ControllerFactory::class,
             Controller\ProdutosController::class => Factory\ControllerFactory::class,
+            Controller\HomeController::class => Factory\ControllerFactory::class,
         ]
     ],
 
-    
+
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -119,13 +127,13 @@ return [
 
     'doctrine' => array(
         'driver' => array(
-    
+
             'application_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(__DIR__ . '/../src/Join/Entity')
             ),
-    
+
             'orm_default' => array(
                 'drivers' => array(
                     'Join\Entity' => 'application_entities',
