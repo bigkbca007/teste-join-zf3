@@ -77,7 +77,7 @@ function mostrarModal(options) {
     if (options.scrollY) {
         scrollY = 'overflow-y: scroll;';
         if ('number' !== typeof options.height) {
-            // Se não houver altura, então esta será 80% da altura da tela.
+            // Se não houver altura, então esta será 70% da altura da tela.
             var heightBody = window.innerHeight * .7;
             styleHeightPx = 'height:' + heightBody + 'px;';
         }
@@ -89,10 +89,10 @@ function mostrarModal(options) {
     modal.find(".modal-content").attr('style', 'border: ' + borderColor + styleCenterWidth + styleCenterHeight);
     modal.find(".modal-header").attr('style', 'background-color:transparent !important; border-bottom: ' + borderColor);
     modal.find(".modal-header h5 strong").addClass("text-" + options.type).html(icon + ' ' + options.txt_header);
-    modal.find("#bt-fechar").addClass("text-" + options.type);
-    modal.find(".modal-body").addClass("text-" + options.type + " bg-" + options.type).attr('style', styleWidthPx + styleHeightPx + scrollY).html(options.txt_body);
+    modal.find("#bt-fechar").addClass("btn text-" + options.type);
+    modal.find(".modal-body").addClass("text-" + options.type /*+ " bg-" + options.type*/).attr('style', styleWidthPx + styleHeightPx + scrollY).html(options.txt_body);
     modal.find(".modal-footer").attr('style', 'border-top: ' + borderColor);
-
+    
     // Atribui id
     if ('undefined' !== typeof options.id) {
         modal.attr('id', options.id);
@@ -124,8 +124,8 @@ function mostrarModal(options) {
         });
     } else {
         // Se não houver butão, adiciona o butão de fechar.
-        var buttonEl = $('<button></buttons>');
-        buttonEl.addClass('btn btn-default');
+        var buttonEl = $('<button class="btn" data-bs-dismiss="modal"></buttons>');
+        buttonEl.addClass('btn-outline-'+options.type+' '+'btn-default');
         buttonEl.html('Fechar');
         buttonEl.attr('data-dismiss', 'modal');
         modal.find(".modal-footer").prepend(buttonEl);
@@ -159,7 +159,7 @@ function mostrarModal(options) {
         
     }
     
-    modal.modal();
+    modal.modal('show');
 
     // Remove o padding-right que gera quando as chamadas de modais se sobrepõem
     modal.one('hidden.bs.modal', function () {
@@ -208,10 +208,10 @@ function criarModalMensagens() {
     html += '    <div class="modal-dialog" role="document">';
     html += '        <div class="modal-content">';
     html += '            <div class="modal-header">';
-    html += '                <button type="button" class="close" id="bt-fechar" data-dismiss="modal" aria-label="Close">';
+    html += '                <h5 class="modal-title"><strong>Modal title</strong></h5>';
+    html += '                <button type="button" class="close" id="bt-fechar" data-dismiss="modal" aria-label="Close" data-bs-dismiss="modal">';
     html += '                    <span aria-hidden="true">&times;</span>';
     html += '                </button>';
-    html += '                <h5 class="modal-title"><strong>Modal title</strong></h5>';
     html += '            </div>';
     html += '            <div class="modal-body">';
     html += '                <p>Modal body text goes here.</p>';

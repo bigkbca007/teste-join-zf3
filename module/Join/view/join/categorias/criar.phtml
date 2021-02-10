@@ -1,7 +1,7 @@
 <h2 class="head-page"><?php echo is_null($categoria) ? 'Adicionar' : 'Editar' ?> Categoria</h2>
 
 <div class="style-content">
-    <form method="POST" action="<?php echo $action ?>" class="style-form">
+    <form method="POST" action="<?php echo $action ?>" class="style-form" onsubmit="return validarForm();">
 
         <input type="hidden" name="idCategoriaProduto" value="<?php echo is_null($categoria) ? 0 : $categoria->getIdCategoriaProduto() ?>">
         <div class="mb-3">
@@ -24,4 +24,23 @@
             <?php endif; ?>
         </button>
     </form>
+    <br>
+    <br>
+    <small class="text-info">* Campos obrigatórios.</small>
 </div>
+
+<script type="text/javascript">
+
+    function validarForm() {
+        if ('' == $('#nomeCategoria').val().trim()) {
+            mostrarModal({
+                type: 'danger',
+                txt_header: 'Erro',
+                txt_body: 'O campo <strong>Nome</strong> é obrigatório.'
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

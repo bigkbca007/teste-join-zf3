@@ -1,11 +1,11 @@
 <h2 class="head-page"><?php echo is_null($produto) ? 'Adicionar' : 'Editar' ?> Produto</h2>
 
 <div class="style-content">
-    <form method="POST" action="<?php echo $action ?>" class="style-form">
+    <form method="POST" action="<?php echo $action ?>" class="style-form" onsubmit="return validarForm();">
 
         <input type="hidden" name="idProduto" value="<?php echo is_null($produto) ? 0 : $produto->getIdProduto() ?>">
         <div class="mb-3">
-            <label for="idCategoriaProduto" class="form-label">Categoria</label>
+            <label for="idCategoriaProduto" class="form-label">Categoria*</label>
             <select class="form-control" name="idCategoriaProduto" id="idCategoriaProduto">
                 <option value="">Selecione</option>
                 <?php foreach($categorias as $categoria): ?>
@@ -14,12 +14,12 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="nomeProduto" class="form-label">Nome</label>
+            <label for="nomeProduto" class="form-label">Nome*</label>
             <input type="text" class="form-control" name="nomeProduto" id="nomeProduto" placeholder="Nome do produto" value="<?php echo is_null($produto) ? '' : $produto->getNomeProduto() ?>">
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text">R$</span>
-            <input type="text" class="form-control" name="valorProduto" id="valorProduto" placeholder="Valor do Produto" data-inputmask="'alias': 'currency'" value="<?php echo is_null($produto) ? '' : $produto->getValorProduto() ?>">
+            <span class="input-group-text">R$*</span>
+            <input type="text" class="form-control" name="valorProduto" id="valorProduto" placeholder="Valor do Produto" value="<?php echo is_null($produto) ? '' : number_format($produto->getValorProduto(), 2, ',', '.') ?>">
         </div>
         <button type="submit" class="btn btn-outline-primary">
             <?php if(is_null($produto)): ?>
@@ -37,11 +37,40 @@
             <?php endif ;?>
         </button>
     </form>
+    <br>
+    <br>
+    <small class="text-info">* Campos obrigatórios.</small>
 </div>
 
 <script src="/js/maskMoney.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+    // Formatação de dinheiro
     $(document).ready(function() {
         $("#valorProduto").maskMoney({allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
     });
+
+    // Validação
+    function validarForm() {
+        var msg = '';
+        if ('' == $('#idCategoriaProduto').val()) {
+            msg = 'Selecione uma <strong>Categoria</strong>.';
+        } else if('' == $('#nomeProduto').val().trim()){
+            msg = 'O campo <strong>Nome</strong> é obrigatório.';
+        } else if('' == $('#valorProduto').val().trim()){
+            msg = 'O campo <strong>Valor</strong> é obrigatório.';
+        }
+
+        if ('' != msg) {
+            mostrarModal({
+                type: 'danger',
+                txt_header: 'Erro',
+                txt_body: msg
+            });
+
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
