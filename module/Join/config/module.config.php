@@ -81,9 +81,18 @@ return [
         ]
     ],
 
+    'service_manager' => array(
+        'factories' => array(
+            Service\CategoriasService::class => Factory\ControllerFactory::class,
+        ),
+        'aliases' => array(
+            'categorias-service' => Service\CategoriasService::class
+        )
+    ),
+
     'controllers' => [
         'factories' => [
-            Controller\CategoriasController::class => InvokableFactory::class,
+            Controller\CategoriasController::class => Factory\ControllerFactory::class,
             Controller\ProdutosController::class => InvokableFactory::class
         ]
     ],
@@ -104,5 +113,23 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view'
         ]
-    ]
+    ],
+
+    'doctrine' => array(
+        'driver' => array(
+    
+            'application_entities' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Join/Entity')
+            ),
+    
+            'orm_default' => array(
+                'drivers' => array(
+                    'Join\Entity' => 'application_entities',
+                ),
+            ),
+        )
+    ),
+
 ];

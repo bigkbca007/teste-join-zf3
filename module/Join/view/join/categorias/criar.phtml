@@ -3,10 +3,10 @@
 <div class="style-content">
     <form method="POST" action="<?php echo $action ?>" class="style-form">
 
-        <input type="hidden" name="id_categoria_produto" value="<?php echo is_null($categoria) ? 0 : $categoria->id_categoria_produto ?>">
+        <input type="hidden" name="idCategoriaProduto" value="<?php echo is_null($categoria) ? 0 : $categoria->getIdCategoriaProduto() ?>">
         <div class="mb-3">
-            <label for="nome_categoria" class="form-label">Nome</label>
-            <input type="text" class="form-control" name="nome_categoria" id="nome_categoria" placeholder="Nome da categoria" value="<?php echo is_null($categoria) ? '' : $categoria->nome_categoria ?>">
+            <label for="nomeCategoria" class="form-label">Nome</label>
+            <input type="text" class="form-control" name="nomeCategoria" id="nomeCategoria" placeholder="Nome da categoria" value="<?php echo is_null($categoria) ? '' : $categoria->getNomeCategoria() ?>">
         </div>
         <button type="submit" class="btn btn-outline-primary">
             <?php if(is_null($categoria)): ?>
