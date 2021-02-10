@@ -84,16 +84,18 @@ return [
     'service_manager' => array(
         'factories' => array(
             Service\CategoriasService::class => Factory\ControllerFactory::class,
+            Service\ProdutosService::class => Factory\ControllerFactory::class
         ),
         'aliases' => array(
-            'categorias-service' => Service\CategoriasService::class
+            'categorias-service' => Service\CategoriasService::class,
+            'produtos-service' => Service\ProdutosService::class,
         )
     ),
 
     'controllers' => [
         'factories' => [
             Controller\CategoriasController::class => Factory\ControllerFactory::class,
-            Controller\ProdutosController::class => InvokableFactory::class
+            Controller\ProdutosController::class => Factory\ControllerFactory::class,
         ]
     ],
 

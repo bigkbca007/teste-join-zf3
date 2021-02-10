@@ -25,7 +25,6 @@ class CategoriasController extends AbstractActionController {
             'categoria' => null,
             'action' => '/categorias/store'
         ];
-        
     }
 
     public function indexAction()
@@ -52,9 +51,9 @@ class CategoriasController extends AbstractActionController {
     }
 
     public function editAction(){
-        $id_categoria_produto = $this->params()->fromRoute('id');
+        $id = $this->params()->fromRoute('id');
         
-        $categoria = $this->entityManager->getRepository(TbCategoriasProdutos::class)->find($id_categoria_produto);
+        $categoria = $this->entityManager->getRepository(TbCategoriasProdutos::class)->find($id);
 
         $view = new ViewModel([
             'categoria' => $categoria,

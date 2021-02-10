@@ -3,23 +3,23 @@
 <div class="style-content">
     <form method="POST" action="<?php echo $action ?>" class="style-form">
 
-        <input type="hidden" name="id_produto" value="<?php echo is_null($produto) ? 0 : $produto->id_produto ?>">
+        <input type="hidden" name="idProduto" value="<?php echo is_null($produto) ? 0 : $produto->getIdProduto() ?>">
         <div class="mb-3">
-            <label for="id_categoria_produto" class="form-label">Categoria</label>
-            <select class="form-control" name="id_categoria_produto" id="id_categoria_produto">
+            <label for="idCategoriaProduto" class="form-label">Categoria</label>
+            <select class="form-control" name="idCategoriaProduto" id="idCategoriaProduto">
                 <option value="">Selecione</option>
                 <?php foreach($categorias as $categoria): ?>
-                <option <?php echo !is_null($produto) && ($categoria->id_categoria_produto == $produto->id_categoria_produto)? 'selected' : '' ?> value="<?php echo $categoria->id_categoria_produto ?>"><?php echo $categoria->nome_categoria ?></option>
+                    <option <?php echo !is_null($produto) && ($categoria->getIdCategoriaProduto() == $produto->getIdCategoriaProduto()->getIdCategoriaProduto())? 'selected' : '' ?> value="<?php echo $categoria->getIdCategoriaProduto() ?>"><?php echo $categoria->getNomeCategoria() ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="mb-3">
-            <label for="nome_produto" class="form-label">Nome</label>
-            <input type="text" class="form-control" name="nome_produto" id="nome_produto" placeholder="Nome do produto" value="<?php echo is_null($produto) ? '' : $produto->nome_produto ?>">
+            <label for="nomeProduto" class="form-label">Nome</label>
+            <input type="text" class="form-control" name="nomeProduto" id="nomeProduto" placeholder="Nome do produto" value="<?php echo is_null($produto) ? '' : $produto->getNomeProduto() ?>">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text">R$</span>
-            <input type="text" class="form-control" name="valor_produto" id="valor_produto" placeholder="Valor do Produto" data-inputmask="'alias': 'currency'" value="<?php echo is_null($produto) ? '' : $produto->valor_produto ?>">
+            <input type="text" class="form-control" name="valorProduto" id="valorProduto" placeholder="Valor do Produto" data-inputmask="'alias': 'currency'" value="<?php echo is_null($produto) ? '' : $produto->getValorProduto() ?>">
         </div>
         <button type="submit" class="btn btn-outline-primary">
             <?php if(is_null($produto)): ?>
@@ -42,6 +42,6 @@
 <script src="/js/jquery.maskMoney.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#valor_produto").maskMoney({allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
+        $("#valorProduto").maskMoney({allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
     });
 </script>

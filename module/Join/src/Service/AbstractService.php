@@ -4,12 +4,18 @@ namespace Join\Service;
 
 use Laminas\Hydrator\ClassMethodsHydrator;
 
-abstract class AbstractService {
+abstract class AbstractService
+{
+
     protected $container;
     protected $entityManager;
     protected $entity;
 
-    public function store(array $data){
+    /**
+     * Método para inserir categoria em tb_produto
+     */
+    public function store(array $data)
+    {
         $entity = new $this->entity($data);
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
@@ -17,7 +23,11 @@ abstract class AbstractService {
         return $entity;
     }
 
-    public function update(array $data, int $id){
+    /**
+     * Método para atualizar uma categoria em tb_produto
+     */
+    public function update(array $data, int $id)
+    {
         $entity = $this->entityManager->getReference($this->entity, $id);
         $hydrator = new ClassMethodsHydrator();
         $hydrator->hydrate($data, $entity);
@@ -28,8 +38,12 @@ abstract class AbstractService {
         return $entity;
     }
 
-    public function destroy(int $id){
-        
+    /**
+     * Método para remover um registro de tb_produto
+     */
+    public function destroy(int $id)
+    {
+
         $entity = $this->entityManager->getReference($this->entity, $id);
 
         $this->entityManager->remove($entity);

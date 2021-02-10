@@ -2,19 +2,19 @@
 
 namespace Join\Service;
 
-use Join\Entity\TbCategoriasProdutos;
+use Join\Entity\TbProdutos;
 use Join\Service\AbstractService;
 use Laminas\Hydrator\ClassMethodsHydrator;
 
 /**
- * Classe para realizar transações com o a tabela tb_categorias_produtos
+ * Classe para realizar transações com o a tabela tb_produto
  */
-class CategoriasService extends AbstractService {
+class ProdutosService extends AbstractService {
 
     public function __construct($container, $entityManager) {
         $this->container = $container;
         $this->entityManager = $entityManager;
-        $this->entity = TbCategoriasProdutos::class;
+        $this->entity = TbProdutos::class;
     }
 
 }

@@ -2,24 +2,27 @@
 
 namespace Join\Controller;
 
+use Join\Entity\TbCategoriasProdutos;
+use Join\Entity\TbProdutos;
 use Laminas\Mvc\Controller\AbstractActionController;
-use Laminas\View\Helper\ViewModel;
+use Laminas\View\Model\ViewModel;
 use stdClass;
 
 class ProdutosController extends AbstractActionController {
 
+    private $container;
+    private $entityManager;
+
+    public function __construct($container, $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->container= $container;
+    }
+
     public function criarAction()
     {
 
-        //--------------------------------------------
-        // Acessar bd
-        //--------------------------------------------
-        $obj = new stdClass();
-        $obj->nome_categoria = 'Jogos';
-        $obj->id_categoria_produto = 'Jogos';
-
-        $categorias = [$obj];
-        //---------------------------------------------
+        $categorias = $this->entityManager->getRepository(TbCategoriasProdutos::class)->findBy([],['nomeCategoria' => 'ASC']);
 
         return [
             'produto' => null,
@@ -31,20 +34,72 @@ class ProdutosController extends AbstractActionController {
 
     public function indexAction()
     {
-        //--------------------------------------------
-        // Acessar bd
-        //--------------------------------------------
-        $obj = new stdClass();
-        $obj->nome_produto = 'Dark Souls III';
-        $obj->nome_categoria = 'Jogos';
-        $obj->valor_produto = '250.99';
-        $obj->data_criacao = '09/02/2021 17:26:38';
-        $obj->id_produto = '1';
+        $produtos = $this->entityManager->getRepository(TbProdutos::class)->getProdutos();
 
-        $produtos = [$obj];
-        //---------------------------------------------
         return [
             'produtos' => $produtos
         ];
     }
+
+    public function storeAction(){
+        // Filtragem aqui
+        
+        $data = $this->params()->fromPost();
+        unset($data['idProduto']);
+        $data['valorProduto'] = (float)str_replace(['.',','], ['','.'], $data['valorProduto']);
+        $data['dataCriacao'] = new \DateTime('now', new \DateTimeZone('America/Bahia'));
+        $data['idCategoriaProduto'] = $this->entityManager->getReference(TbCategoriasProdutos::class, $data['idCategoriaProduto']);
+        
+        $service = $this->container->get('produtos-service');
+
+        $service->store($data);
+
+        return $this->redirect()->toUrl('/produtos');
+
+    }
+
+    public function editAction(){
+        $id = $this->params()->fromRoute('id');
+        
+        $produto = $this->entityManager->getRepository(TbProdutos::class)->find($id);
+        $categorias = $this->entityManager->getRepository(TbCategoriasProdutos::class)->findBy([],['nomeCategoria' => 'ASC']);
+
+        $view = new ViewModel([
+            'produto' => $produto,
+            'categorias' => $categorias,
+            'action' => '/produtos/update'
+        ]);
+        $view->setTemplate('join/produtos/criar');
+        
+        return $view;
+    }
+
+    public function updateAction(){
+        // Filtragem aqui
+
+        $data = $this->params()->fromPost();
+        $id = $data['idProduto'] = (int)$data['idProduto'];
+        $data['valorProduto'] = (float)str_replace(['.',','], ['','.'], $data['valorProduto']);
+        $data['idCategoriaProduto'] = $this->entityManager->getReference(TbCategoriasProdutos::class, $data['idCategoriaProduto']);
+        
+        $service = $this->container->get('produtos-service');
+        $service->update($data, $id);
+
+        return $this->redirect()->toUrl('/produtos');
+
+    }
+
+    public function destroyAction(){
+        $id = $this->params()->fromRoute('id');
+
+        // Verificar ser o registro exites. Se não existir, então exibe mensagem de erro.
+
+        $service = $this->container->get('produtos-service');
+        
+        $service->destroy($id);
+
+        return $this->redirect()->toUrl('/produtos');
+
+    }
+
 }
