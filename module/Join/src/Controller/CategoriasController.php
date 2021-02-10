@@ -29,7 +29,7 @@ class CategoriasController extends AbstractActionController {
 
     public function indexAction()
     {
-        $categorias = $this->entityManager->getRepository(TbCategoriasProdutos::class)->findBy([],['nomeCategoria' => 'ASC']);
+        $categorias = $this->entityManager->getRepository(TbCategoriasProdutos::class)->getCategorias();
 
         return [
             'categorias' => $categorias
@@ -84,8 +84,13 @@ class CategoriasController extends AbstractActionController {
         // Verificar ser o registro exites. Se não existir, então exibe mensagem de erro.
 
         $service = $this->container->get('categorias-service');
-        
-        $service->destroy($id);
+        try{
+            $service->destroy($id);
+        } catch(\Exception $e){
+            echo 'Esta categoria não pode ser removida<br>';
+            echo '<a href="javascript:history.back();">Voltar</a>';
+            die;
+        }
 
         return $this->redirect()->toUrl('/categorias');
 

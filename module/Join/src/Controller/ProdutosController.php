@@ -6,7 +6,6 @@ use Join\Entity\TbCategoriasProdutos;
 use Join\Entity\TbProdutos;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use stdClass;
 
 class ProdutosController extends AbstractActionController {
 

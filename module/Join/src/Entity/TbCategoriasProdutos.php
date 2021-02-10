@@ -9,7 +9,7 @@ use Laminas\Hydrator\ClassMethodsHydrator;
  * TbCategoriasProdutos
  *
  * @ORM\Table(name="tb_categorias_produtos")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Join\Repository\TbCategoriasProdutosRepository")
  */
 class TbCategoriasProdutos
 {
